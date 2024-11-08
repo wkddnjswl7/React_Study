@@ -12,7 +12,10 @@ const Button = ({ text = "기본 텍스트", color = "black", children }) => {
       onClick={onClickButton}
       //onMouse={onClickButton}
       style={{ color: color }}
-    ></button>
+    >
+      {text} - {color.toUpperCase()}
+      {children}
+    </button>
   );
 };
 
