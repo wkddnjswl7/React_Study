@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 // 간단한 회원가입 폼 만들기
 // 1. 사용자의 이름 -> 사용자가 입력하는 이름을 State 로 보관
@@ -7,10 +7,6 @@ import { useState } from "react";
 // 4. 자기소개
 
 const Register = () =>{
-    const [name, setName] = useState("이름");
-    const [birth, setBirth] = useState("");
-    const [country, setCountry] = useState("");
-    const [bio, setBio] = useState("");
 
     const [input, setInput] = useState({
         name:"",
@@ -19,19 +15,33 @@ const Register = () =>{
         bio:""
     })
 
+    const counrRef = useRef(0);
+    const inputRef = useRef();
+
     const onChange = (e) =>{
-        console.log(e.target.name, e.target.value);
+        counrRef.current++;
+        console.log(counrRef.current);
         setInput({
             ...input,
             [e.target.name] : e.target.value,
         })
     }
 
+    const onsubmit = () =>{
+        // 이름을 정확히 입력했는지 확인
+        if(input.name === ""){
+            // 이름을 입력하는 DOM 요소에 포커스
+            console.log(inputRef.current);
+            inputRef.current.focus();
+        }
+    }
+
     return (
         <div>
             {/* 이름 */}
             <div>
-                <input 
+                <input
+                ref={inputRef}
                 name="name"
                 value={input.name} 
                 onChange={onChange} 
@@ -67,6 +77,8 @@ const Register = () =>{
                 value={input.bio} 
                 onChange={onChange}/>
             </div>
+
+            <button onClick={onsubmit}>제출</button>
         </div>
     )
 };
